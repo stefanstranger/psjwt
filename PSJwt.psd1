@@ -69,7 +69,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Convert-JWT')
+    FunctionsToExport = @('ConvertFrom-JWT')
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = '*'
@@ -95,13 +95,13 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @()
+            Tags       = @('JWT', 'JSON', 'Decode', 'Encode')
 
             # A URL to the license for this module.
-            # LicenseUri = ''
+            LicenseUri = 'http://opensource.org/licenses/MIT'
 
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            ProjectUri = 'https://github.com/stefanstranger/PSJwt'
 
             # A URL to an icon representing this module.
             # IconUri = ''
