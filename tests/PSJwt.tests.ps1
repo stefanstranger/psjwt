@@ -69,5 +69,3 @@ Describe -Name 'Test Functions in PSJwt Module' -Fixture {
         }
     }
 }
-#>
-
