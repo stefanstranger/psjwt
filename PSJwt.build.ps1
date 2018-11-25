@@ -16,7 +16,7 @@ try {
 
 catch { }
 
-task CreateHelp {
+task UpdateHelp {
     Import-Module .\PSJwt.psd1 -Force
     Update-MarkdownHelp .\docs
 }
