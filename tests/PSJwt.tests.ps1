@@ -67,5 +67,10 @@ Describe -Name 'Test Functions in PSJwt Module' -Fixture {
             $Token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaXJzdE5hbWUiOiJTdGVmYW4iLCJMYXN0TmFtZSI6IlN0cmFuZ2VyIiwiRGVtbyI6IkVuY29kZSBBY2Nlc3MgVG9rZW4iLCJleHAiOjEzOTMyODY4OTMsImlhdCI6MTM5MzI2ODg5M30.8-YqAPPth3o-C_xO9WFjW5RViAnDe2WrmVyqLRnNEV0'
             (ConvertFrom-JWT -Token $Token).Demo | Should Be 'Encode Access Token'
         }
+
+        It -name 'Passes ConvertTo-JWT Function' -test {
+            $Secret = 'qwerty'
+            @{'FirstName' = 'Stefan'; 'LastName' = 'Stranger'} | ConvertTo-Jwt -secret $secret | Should Not Throw
+        }
     }
 }
