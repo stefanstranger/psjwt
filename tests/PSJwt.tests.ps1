@@ -70,7 +70,8 @@ Describe -Name 'Test Functions in PSJwt Module' -Fixture {
 
         It -name 'Passes ConvertTo-JWT Function' -test {
             $Secret = 'qwerty'
-            @{'FirstName' = 'Stefan'; 'LastName' = 'Stranger'} | ConvertTo-Jwt -secret $secret | Should Not Throw
+            $Result = ( @{'FirstName' = 'Stefan'; 'LastName' = 'Stranger'; 'Demo' = 'Encode Access Token'; 'exp' = '1393286893'; 'iat' = '1393268893'} | ConvertTo-Jwt -secret $secret)  
+            $Result | Should Be 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOiIxMzkzMjY4ODkzIiwiRGVtbyI6IkVuY29kZSBBY2Nlc3MgVG9rZW4iLCJGaXJzdE5hbWUiOiJTdGVmYW4iLCJleHAiOiIxMzkzMjg2ODkzIiwiTGFzdE5hbWUiOiJTdHJhbmdlciJ9.xOTWY783quoJwvGiSlVuC_R3GwUFXbLNDX_Arb16bhA'
         }
     }
 }
