@@ -1,10 +1,10 @@
 if ($PSEdition -eq "Core") {
     Import-Module -Name "$PSScriptRoot/lib/jwt/netstandard1.3/JWT.dll" | Out-Null
-    Import-Module -Name "$PSScriptRoot/lib/Newtonsoft.json.9.0.1/netstandard1.0/Newtonsoft.Json.dll" | Out-Null
+    Import-Module -Name "$PSScriptRoot/lib/Newtonsoft/netstandard1.0/Newtonsoft.Json.dll" | Out-Null
 }
 else {
     Import-Module -Name "$PSScriptRoot/lib/jwt/net46/JWT.dll" | Out-Null
-    Import-Module -Name "$PSScriptRoot/lib/Newtonsoft.json.9.0.1/net45/Newtonsoft.Json.dll" | Out-Null
+    Import-Module -Name "$PSScriptRoot/lib/Newtonsoft/net45/Newtonsoft.Json.dll" | Out-Null
 }
 
 #Get public and private function definition files.
