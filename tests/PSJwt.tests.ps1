@@ -71,7 +71,7 @@ Describe -Name 'Test Functions in PSJwt Module' -Fixture {
         It -name 'Passes ConvertTo-JWT Function' -test {
             $Secret = 'qwerty'
             $Result = ( @{'FirstName' = 'Stefan'; 'LastName' = 'Stranger'; 'Demo' = 'Encode Access Token'; 'exp' = '1393286893'; 'iat' = '1393268893'} | ConvertTo-Jwt -secret $secret)  
-            $Result | Should Be 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOiIxMzkzMjY4ODkzIiwiRmlyc3ROYW1lIjoiU3RlZmFuIiwiZXhwIjoiMTM5MzI4Njg5MyIsIkRlbW8iOiJFbmNvZGUgQWNjZXNzIFRva2VuIiwiTGFzdE5hbWUiOiJTdHJhbmdlciJ9.CM8mBdXtdf84B8hARXb5wwOnxqeUoOJs8UUTIGClknk'
+            $Result.Length | Should Be 229
         }
     }
 }

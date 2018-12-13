@@ -1,5 +1,5 @@
 # Docs: https://aka.ms/yaml
-name: $(Build.DefinitionName)_$(GitVersion_InformationalVersion)
+name: $(Build.DefinitionName)_$(Date:yyyyMMdd))
 pr:
 - master
 
