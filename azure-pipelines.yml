@@ -14,12 +14,13 @@ steps:
   displayName: 'Run build script'
 
 - task: richardfennellBM.BM-VSTS-PesterRunner-Task.Pester-Task.Pester@8
-  displayName: 'Pester Tests'
+  displayName: 'Pester Test Runner'
   inputs:
-    additionalModulePath: '$(Build.ArtifactStagingDirectory)'
-    CodeCoverageFolder: '$(Build.ArtifactStagingDirectory)'
-    resultsFile: '$(Common.TestResultsDirectory)\Test-$(Build.DefinitionName)_$(Build.BuildNumber).xml'
-    CodeCoverageOutputFile: '$(Common.TestResultsDirectory)\Coverage-$(Build.DefinitionName)_$(Build.BuildNumber).xml'
+   scriptFolder: '$(System.DefaultWorkingDirectory)\tests\*'
+   additionalModulePath: '$(Build.ArtifactStagingDirectory)'
+   CodeCoverageFolder: '$(Build.ArtifactStagingDirectory)'
+   resultsFile: '$(Common.TestResultsDirectory)\Test-$(Build.DefinitionName)_$(Build.BuildNumber).xml'
+   CodeCoverageOutputFile: '$(Common.TestResultsDirectory)\Coverage-$(Build.DefinitionName)_$(Build.BuildNumber).xml'
 
 - task: PublishTestResults@2
   displayName: 'Publish Test Results'
