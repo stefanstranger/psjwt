@@ -24,7 +24,7 @@ task UpdateHelp {
     Update-MarkdownHelp .\docs 
     New-ExternalHelp -Path .\docs -OutputPath .\en-US -Force
 }
-
+ 
 task GetLatestJWTPackage {
     & nuget list JWT | Where-Object {$_ -match '^JWT.\d.\d.\d'}
 }
@@ -62,3 +62,7 @@ task UpdateJWTPackage {
         Write-Output -InputObject ('Current local version {0}. Latest version {1}' -f $ProductVersion, $LatestVersion)
     }
 }
+
+# Synopsis: Build, test and clean all.
+
+task . UpdateHelp, UpdateJWTPackage
