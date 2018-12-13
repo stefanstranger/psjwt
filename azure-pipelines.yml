@@ -7,9 +7,6 @@ queue:
   name: Hosted VS2017
 
 steps:
-- task: gittools.gitversion.gitversion-task.GitVersion@4
-  displayName: GitVersion
-
 - powershell: .\bootstrap.ps1
   displayName: 'Restore pre-requisites'
 
