@@ -6,19 +6,6 @@
 # use the most strict mode
 Set-StrictMode -Version Latest
 
-try {
-
-    $script:IsWindows = (-not (Get-Variable -Name IsWindows -ErrorAction Ignore)) -or $IsWindows
-    $script:IsLinux = (Get-Variable -Name IsLinux -ErrorAction Ignore) -and $IsLinux
-    $script:IsMacOS = (Get-Variable -Name IsMacOS -ErrorAction Ignore) -and $IsMacOS
-    $script:IsCoreCLR = $PSVersionTable.ContainsKey('PSEdition') -and $PSVersionTable.PSEdition -eq 'Core'
-
-}
-
-catch {
-    Write-Error -Message ('Unsupported OS')
-}
-
 task UpdateHelp {
     Import-Module .\PSJwt.psd1 -Force
     Update-MarkdownHelp .\docs 
@@ -63,6 +50,83 @@ task UpdateJWTPackage {
     }
 }
 
+task CopyModuleFiles {
+
+    # Copy Module Files to Output Folder
+    if (-not (Test-Path .\output)) {
+
+        $null = New-Item -Path .\output -ItemType Directory
+
+    }
+
+    Copy-Item -Path '.\en-US\' -Filter *.* -Recurse -Destination .\output -Force
+    Copy-Item -Path '.\lib\' -Filter *.* -Recurse -Destination .\output -Force
+    Copy-Item -Path '.\public\' -Filter *.* -Recurse -Destination .\output -Force
+    Copy-Item -Path '.\tests\' -Filter *.* -Recurse -Destination .\output -Force
+
+    #Copy Module Manifest files
+    Copy-Item -Path @(
+        '.\README.md'
+        '.\PSJwt.psd1'
+        '.\PSJwt.psm1'
+    ) -Destination .\output -Force        
+}
+
+task Test {
+    Invoke-Pester .\tests
+}
+
+task UpdateManifest {
+    # Import PlatyPS. Needed for parsing README for Change Log versions
+    Import-Module -Name PlatyPS
+
+    # Find Latest Version in README file from Change log.
+    $README = Get-Content -Path .\README.md
+    $MarkdownObject = [Markdown.MAML.Parser.MarkdownParser]::new()
+    [regex]$regex = '\d\.\d\.\d'
+    $Versions = $regex.Matches($MarkdownObject.ParseString($README).Children.Spans.Text) | foreach-object {$_.value}
+    ($Versions | Measure-Object -Maximum).Maximum
+
+    $manifestPath = '.\PSJwt.psd1'
+ 
+    # Start by importing the manifest to determine the version, then add 1 to the Build
+    $manifest = Test-ModuleManifest -Path $manifestPath
+    [System.Version]$version = $manifest.Version
+    [String]$newVersion = New-Object -TypeName System.Version -ArgumentList ($version.Major, $version.Minor, ($version.Build + 1))
+    Write-Output -InputObject ('New Module version: {0}' -f $newVersion)
+    
+    #Update Module with new version
+    Update-ModuleManifest -ModuleVersion $newVersion -Path .\PSJwt.psd1
+}
+
+task PublishModule {
+    # Publish the new version to the PowerShell Gallery
+    Try {
+        # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
+        $PM = @{
+            Path        = '.\Output'
+            NuGetApiKey = $env:psgallery
+            ErrorAction = 'Stop'
+        }
+        Publish-Module @PM
+        Write-Output -InputObject ('PSJwt PowerShell Module version {0} published to the PowerShell Gallery' -f $newVersion)
+    }
+    Catch {
+        throw $_
+    }
+}
+
+
+
+task Clean {
+    # Clean output folder
+    if ((Test-Path .\output)) {
+
+        Remove-Item -Path .\Output -Recurse -Force
+
+    }
+}
+
 # Synopsis: Build, test and clean all.
 
-task . UpdateHelp, UpdateJWTPackage
+task . Clean, UpdateHelp, UpdateJWTPackage, CopyModuleFiles, Test
