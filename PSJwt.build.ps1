@@ -100,15 +100,24 @@ task UpdateManifest {
 }
 
 task PublishModule {
-    # Publish the new version to the PowerShell Gallery
+    # Get Release Not info from README Change log
+    if (!(Get-Module PlatyPS)) {
+        Import-Module PlatyPS
+    }
+    $README = Get-Content -Path .\README.md
+    $MarkdownObject = [Markdown.MAML.Parser.MarkdownParser]::new()
+    $ReleaseNotes = ((($MarkdownObject.ParseString($README).Children.Spans.Text) -match '\d\.\d\.\d') -split ' - ')[1]
+
     Try {
         # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
-        $PM = @{
-            Path        = '.\Output'
-            NuGetApiKey = $env:psgallery
-            ErrorAction = 'Stop'
+        $params = @{
+            Path         = '.\Output'
+            NuGetApiKey  = $env:psgallery
+            Name         = 'PSJwt'
+            ErrorAction  = 'Stop'
+            ReleaseNotes = $ReleaseNotes
         }
-        Publish-Module @PM
+        Publish-Module @params
         Write-Output -InputObject ('PSJwt PowerShell Module version {0} published to the PowerShell Gallery' -f $newVersion)
     }
     Catch {
@@ -129,4 +138,4 @@ task Clean {
 
 # Synopsis: Build, test and clean all.
 
-task . Clean, UpdateHelp, UpdateJWTPackage, CopyModuleFiles, Test
+task . Clean, UpdateHelp, UpdateJWTPackage, CopyModuleFiles, Test, PublishModule
