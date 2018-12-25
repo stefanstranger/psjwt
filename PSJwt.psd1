@@ -87,7 +87,7 @@
     # ModuleList = @()
 
     # List of all files packaged with this module
-    # FileList = @()
+    FileList          = @('PSJwt.psd1', 'PSJwt.psm1', 'README.md', 'PSJwt-help.xml', 'JWT.dll', 'JWT.xml', 'Newtonsoft.Json.dll', 'Newtonsoft.Json.xml', 'ConvertFrom-JWT.ps1', 'ConvertTo-JWT.ps1', 'PSJwt.tests.ps1')
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
     PrivateData       = @{
@@ -103,11 +103,8 @@
             # A URL to the main website for this project.
             ProjectUri = 'https://github.com/stefanstranger/PSJwt'
 
-            # A URL to an icon representing this module.
-            # IconUri = ''
-
-            # ReleaseNotes of this module
-            # ReleaseNotes = ''
+            # Prerelease
+            Prerelease = 'alpha'
 
         } # End of PSData hashtable
 
