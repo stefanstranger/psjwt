@@ -14,9 +14,15 @@ JSON Web Token (JWT) is a <a href="https://en.wikipedia.org/wiki/JSON" target="_
 JWT relies on other JSON-based standards: JWS (<a href="https://en.wikipedia.org/wiki/JSON_Web_Signature" target="_blank">JSON Web Signature</a>) <a href="https://tools.ietf.org/html/rfc7515" target="_blank">RFC 7515</a> and JWE (<a href="https://en.wikipedia.org/wiki/JSON_Web_Encryption" target="_blank">JSON Web Encryption</a>) <a href="https://tools.ietf.org/html/rfc7516" target="_blank">RFC 7516</a>
 
 # Change log
-* 25-11-2018: 
+
+* 25-12-2018:
+
+  Version 0.0.3 - Created Alpha version
+
+* 25-11-2018:
 
   Version 0.0.2 - Function ConvertTo-JWT added
+
 * 24-11-2018:
 
   Version 0.0.1 - Function ConvertFrom-JWT added
