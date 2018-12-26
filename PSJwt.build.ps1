@@ -133,4 +133,4 @@ task Clean {
 
 # Synopsis: Build, test and clean all.
 
-task . Clean, UpdateHelp, UpdateJWTPackage, CopyModuleFiles, Test, PublishModule
+task . Clean, UpdateHelp, UpdateJWTPackage, UpdateManifest, CopyModuleFiles, Test, PublishModule
