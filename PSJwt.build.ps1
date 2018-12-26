@@ -53,23 +53,23 @@ task UpdateJWTPackage {
 task CopyModuleFiles {
 
     # Copy Module Files to Output Folder
-    if (-not (Test-Path .\output)) {
+    if (-not (Test-Path .\output\PSJwt)) {
 
-        $null = New-Item -Path .\output -ItemType Directory
+        $null = New-Item -Path .\output\PSJwt -ItemType Directory
 
     }
 
-    Copy-Item -Path '.\en-US\' -Filter *.* -Recurse -Destination .\output -Force
-    Copy-Item -Path '.\lib\' -Filter *.* -Recurse -Destination .\output -Force
-    Copy-Item -Path '.\public\' -Filter *.* -Recurse -Destination .\output -Force
-    Copy-Item -Path '.\tests\' -Filter *.* -Recurse -Destination .\output -Force
+    Copy-Item -Path '.\en-US\' -Filter *.* -Recurse -Destination .\output\PSJwt -Force
+    Copy-Item -Path '.\lib\' -Filter *.* -Recurse -Destination .\output\PSJwt -Force
+    Copy-Item -Path '.\public\' -Filter *.* -Recurse -Destination .\output\PSJwt -Force
+    Copy-Item -Path '.\tests\' -Filter *.* -Recurse -Destination .\output\PSJwt -Force
 
     #Copy Module Manifest files
     Copy-Item -Path @(
         '.\README.md'
         '.\PSJwt.psd1'
         '.\PSJwt.psm1'
-    ) -Destination .\output -Force        
+    ) -Destination .\output\PSJwt -Force        
 }
 
 task Test {
@@ -94,28 +94,23 @@ task UpdateManifest {
     [System.Version]$version = $manifest.Version
     [String]$newVersion = New-Object -TypeName System.Version -ArgumentList ($version.Major, $version.Minor, ($version.Build + 1))
     Write-Output -InputObject ('New Module version: {0}' -f $newVersion)
-    
-    #Update Module with new version
-    Update-ModuleManifest -ModuleVersion $newVersion -Path .\PSJwt.psd1
-}
 
-task PublishModule {
-    # Get Release Not info from README Change log
-    if (!(Get-Module PlatyPS)) {
-        Import-Module PlatyPS
-    }
+    # Update Manifest file with Release Notes
     $README = Get-Content -Path .\README.md
     $MarkdownObject = [Markdown.MAML.Parser.MarkdownParser]::new()
     $ReleaseNotes = ((($MarkdownObject.ParseString($README).Children.Spans.Text) -match '\d\.\d\.\d') -split ' - ')[1]
+    
+    #Update Module with new version
+    Update-ModuleManifest -ModuleVersion $newVersion -Path .\PSJwt.psd1 -ReleaseNotes $ReleaseNotes
+}
 
+task PublishModule {
     Try {
         # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
         $params = @{
-            Path         = '.\Output'
-            NuGetApiKey  = $env:psgallery
-            Name         = 'PSJwt'
-            ErrorAction  = 'Stop'
-            ReleaseNotes = $ReleaseNotes
+            Path        = ('{0}\Output\PSJwt' -f $PSScriptRoot )
+            NuGetApiKey = $env:psgallery
+            ErrorAction = 'Stop'
         }
         Publish-Module @params
         Write-Output -InputObject ('PSJwt PowerShell Module version {0} published to the PowerShell Gallery' -f $newVersion)
