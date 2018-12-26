@@ -87,7 +87,7 @@
     # ModuleList = @()
 
     # List of all files packaged with this module
-    FileList          = @('PSJwt.psd1', 'PSJwt.psm1', 'README.md', 'PSJwt-help.xml', 'JWT.dll', 'JWT.xml', 'Newtonsoft.Json.dll', 'Newtonsoft.Json.xml', 'ConvertFrom-JWT.ps1', 'ConvertTo-JWT.ps1', 'PSJwt.tests.ps1')
+    # FileList  
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
     PrivateData       = @{
