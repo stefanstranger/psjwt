@@ -1,0 +1,32 @@
+{
+    "workbench.colorTheme": "Visual Studio Dark",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "extensions.ignoreRecommendations": false,
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\Sysnative\\WindowsPowerShell\\v1.0\\powershell.exe",
+    // The default language mode that is assigned to new files.
+    "files.defaultLanguage": "powershell",
+    "[shellscript]": {},
+    "explorer.confirmDelete": false,
+    "git.autofetch": true,
+    "window.zoomLevel": -1,
+    // Define paired characters and their shared color group
+    "bracketPairColorizer.consecutivePairColors": [
+        "()",
+        "[]",
+        "{}",
+        [
+            "Orange",
+            "Orchid",
+            "LightSkyBlue"
+        ],
+        "Red"
+    ],
+    "git.enableSmartCommit": true,
+    "workbench.sideBar.location": "right",
+    "explorer.confirmDragAndDrop": false,
+    "files.associations": {
+        "*.sh": "shellscript"
+    },
+    "powershell.powerShellExePath": "C:\\WINDOWS\\Sysnative\\WindowsPowerShell\\v1.0\\powershell.exe",
+}
