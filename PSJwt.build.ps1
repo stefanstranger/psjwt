@@ -113,7 +113,7 @@ task PublishModule {
             ErrorAction = 'Stop'
         }
         Publish-Module @params
-        Write-Output -InputObject ('PSJwt PowerShell Module version {0} published to the PowerShell Gallery' -f $newVersion)
+        Write-Output -InputObject ('PSJwt PowerShell Module version published to the PowerShell Gallery')
     }
     Catch {
         throw $_
