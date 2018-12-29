@@ -12,11 +12,11 @@ steps:
 
 - powershell: .\bootstrap.ps1
   displayName: 'Restore pre-requisites'
-  env:
-    psgallery: $(NugetAPIKey)
 
 - powershell: Invoke-Build
   displayName: 'Run build script'
+  env:
+    psgallery: $(NugetAPIKey)
 
 - task: richardfennellBM.BM-VSTS-PesterRunner-Task.Pester-Task.Pester@8
   displayName: 'Pester Test Runner'
