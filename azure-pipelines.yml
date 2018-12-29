@@ -12,6 +12,8 @@ steps:
 
 - powershell: .\bootstrap.ps1
   displayName: 'Restore pre-requisites'
+  env:
+    psgallery: $(NugetAPIKey)
 
 - powershell: Invoke-Build
   displayName: 'Run build script'
