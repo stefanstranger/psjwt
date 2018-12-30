@@ -123,7 +123,6 @@ task PublishModule -If ($Configuration -eq 'Production') {
 }
 
 
-
 task Clean {
     # Clean output folder
     if ((Test-Path .\output)) {
@@ -133,6 +132,6 @@ task Clean {
     }
 }
 
-# Synopsis: Build, test and clean all.
+# Synopsis: Clean, CopyModuleFiles, Test and Publish Module.
 
-task . Clean, UpdateHelp, UpdateJWTPackage, UpdateManifest, CopyModuleFiles, Test, PublishModule
+task . Clean, CopyModuleFiles, Test, PublishModule
