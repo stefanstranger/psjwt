@@ -3,6 +3,8 @@
 	Build script (https://github.com/nightroman/Invoke-Build)
 #>
 
+param ($Configuration = 'Development')
+
 # use the most strict mode
 Set-StrictMode -Version Latest
 
@@ -104,7 +106,7 @@ task UpdateManifest {
     Update-ModuleManifest -ModuleVersion $newVersion -Path .\PSJwt.psd1 -ReleaseNotes $ReleaseNotes
 }
 
-task PublishModule {
+task PublishModule -If ($Configuration -eq 'Production') {
     Try {
         # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
         $params = @{
