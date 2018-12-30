@@ -13,7 +13,7 @@ steps:
 - powershell: .\bootstrap.ps1
   displayName: 'Restore pre-requisites'
 
-- powershell: Invoke-Build -Configuration 'Production'
+- powershell: Invoke-Build -Configuration 'Development'
   displayName: 'Run build script'
   env:
     psgallery: $(NugetAPIKey)

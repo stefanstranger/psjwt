@@ -107,7 +107,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'Created Alpha version'
+            ReleaseNotes = 'Created Alpha version. Remove this'
 
             # Prerelease string of this module
             Prerelease   = 'alpha'
