@@ -15,6 +15,10 @@ JWT relies on other JSON-based standards: JWS (<a href="https://en.wikipedia.org
 
 # Change log
 
+* 31-12-2018:
+
+  Version 1.0.0 - Changed from Pre-release version to Release version.
+
 * 27-12-2018:
 
   Version 0.0.4 - Updated Build tasks
