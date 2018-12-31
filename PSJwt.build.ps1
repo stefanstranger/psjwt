@@ -5,19 +5,27 @@
 
 param ($Configuration = 'Development')
 
-# use the most strict mode
+#region use the most strict mode
 Set-StrictMode -Version Latest
+#endregion
 
+#region Task to Update the PowerShell Module Help Files.
+# Pre-requisites: PowerShell Module PlatyPS.
 task UpdateHelp {
     Import-Module .\PSJwt.psd1 -Force
     Update-MarkdownHelp .\docs 
     New-ExternalHelp -Path .\docs -OutputPath .\en-US -Force
 }
- 
+#endregion
+
+#region Task to retrieve latest version of JWT Packages
+# More info: https://www.nuget.org/packages/JWT
 task GetLatestJWTPackage {
     & nuget list JWT | Where-Object {$_ -match '^JWT.\d.\d.\d'}
 }
+#endregion
 
+#region Task to Update JWT Package if newer version is released
 task UpdateJWTPackage {
     # Check current JWT Package version
     # Get jwt.dll file properties
@@ -51,7 +59,9 @@ task UpdateJWTPackage {
         Write-Output -InputObject ('Current local version {0}. Latest version {1}' -f $ProductVersion, $LatestVersion)
     }
 }
+#endregion
 
+#region Task to Copy PowerShell Module files to output folder for release as Module
 task CopyModuleFiles {
 
     # Copy Module Files to Output Folder
@@ -73,11 +83,19 @@ task CopyModuleFiles {
         '.\PSJwt.psm1'
     ) -Destination .\output\PSJwt -Force        
 }
+#endregion
 
+#region Task to run all Pester tests in folder .\tests
 task Test {
-    Invoke-Pester .\tests
-}
+    $Result = Invoke-Pester .\tests -PassThru
+    if ($Result.FailedCount -gt 0) {
+        throw 'Pester tests failed'
+    }
 
+}
+#endregion
+
+#region Task to update the Module Manifest file with info from the Changelog in Readme.
 task UpdateManifest {
     # Import PlatyPS. Needed for parsing README for Change Log versions
     Import-Module -Name PlatyPS
@@ -105,7 +123,9 @@ task UpdateManifest {
     #Update Module with new version
     Update-ModuleManifest -ModuleVersion $newVersion -Path .\PSJwt.psd1 -ReleaseNotes $ReleaseNotes
 }
+#endregion
 
+#region Task to Publish Module to PowerShell Gallery
 task PublishModule -If ($Configuration -eq 'Production') {
     Try {
         # Build a splat containing the required details and make sure to Stop for errors which will trigger the catch
@@ -121,8 +141,9 @@ task PublishModule -If ($Configuration -eq 'Production') {
         throw $_
     }
 }
+#endregion
 
-
+#region Task clean up Output folder
 task Clean {
     # Clean output folder
     if ((Test-Path .\output)) {
@@ -131,7 +152,8 @@ task Clean {
 
     }
 }
+#endregion
 
-# Synopsis: Clean, CopyModuleFiles, Test and Publish Module.
-
-task . Clean, CopyModuleFiles, Test, PublishModule
+#region Default Task. Runs Clean, Test, CopyModuleFiles Tasks
+task . Clean, Test, CopyModuleFiles, PublishModule
+#endregion
