@@ -15,9 +15,8 @@ steps:
   inputs:
     scriptFolder: '$(System.DefaultWorkingDirectory)\tests\*'
     additionalModulePath: '$(Build.ArtifactStagingDirectory)'
-    CodeCoverageFolder: '$(Build.ArtifactStagingDirectory)'
     resultsFile: '$(Common.TestResultsDirectory)\Test-$(Build.DefinitionName)_$(Build.BuildNumber).xml'
-    CodeCoverageOutputFile: '$(Common.TestResultsDirectory)\Coverage-$(Build.DefinitionName)_$(Build.BuildNumber).xml'
+  
 
 - task: PublishTestResults@2
   displayName: 'Publish Test Results'
@@ -25,11 +24,6 @@ steps:
   inputs:
     testRunner: NUnit
     searchFolder: '$(Common.TestResultsDirectory)'
-
-- task: PublishCodeCoverageResults@1
-  displayName: 'Publish code coverage'
-  inputs:
-    summaryFileLocation: '$(Common.TestResultsDirectory)\Coverage-$(Build.DefinitionName)_$(Build.BuildNumber).xml'
 
 - powershell: Invoke-Build -Configuration 'Production' -Task Clean, CopyModuleFiles, PublishModule
   displayName: 'Publish PowerShell Module'
