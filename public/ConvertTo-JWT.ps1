@@ -9,7 +9,9 @@ Function ConvertTo-JWT {
         $PayLoad,
         [Parameter(Mandatory = $true)]
         [String]
-        $Secret
+        $Secret,
+        [HashTable]
+        $Headers
     )
 
     begin {
@@ -23,7 +25,16 @@ Function ConvertTo-JWT {
     }
     process {
         #region Encode JWT Token
-        $result = $Encoder.Encode($PayLoad, $Secret)
+        if($Headers)
+        {
+            $extraHeaders = [Collections.Generic.Dictionary[string,object]]::new()
+            $Headers.GetEnumerator() |ForEach-Object {$extraHeaders.Add(([string]$_.Key),$_.Value)}
+            $result = $Encoder.Encode($extraHeaders, $PayLoad, $Secret)
+        }
+        else
+        {
+            $result = $Encoder.Encode($PayLoad, $Secret)
+        }
 
         return $result
         #endregion
