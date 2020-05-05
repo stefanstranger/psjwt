@@ -21,7 +21,7 @@ task UpdateHelp {
 #region Task to retrieve latest version of JWT Packages
 # More info: https://www.nuget.org/packages/JWT
 task GetLatestJWTPackage {
-    & nuget list JWT | Where-Object {$_ -match '^JWT.\d.\d.\d'}
+    & nuget list JWT | Where-Object { $_ -match '^JWT.\d.\d.\d' }
 }
 #endregion
 
@@ -31,11 +31,11 @@ task UpdateJWTPackage {
     # Get jwt.dll file properties
     $File = Get-ChildItem -Path .\lib\ -Filter jwt.dll -Recurse | Select-Object -First 1
     [Version]$ProductVersion = $File.VersionInfo.ProductVersion
-    Write-Output -InputObject ('ProductVersion {0}' -f $ProductVersion)
+    Write-Output -InputObject ('ProductVersion for jwt {0}' -f $ProductVersion)
 
     # Check latest version JWTPackage
-    [Version]$LatestVersion = ((& nuget list JWT | Where-Object {$_ -match '^JWT.\d.\d.\d'}).split(' '))[1]
-    Write-Output -InputObject ('Latest Version {0}' -f $LatestVersion)
+    [Version]$LatestVersion = ((& nuget list JWT | Where-Object { $_ -match '^JWT.\d.\d.\d' }).split(' '))[1]
+    Write-Output -InputObject ('Latest Version for jwt {0}' -f $LatestVersion)
 
     #Download latest version when newer
     If ($LatestVersion -gt $ProductVersion) {
@@ -45,15 +45,21 @@ task UpdateJWTPackage {
 
         Write-Output -InputObject ('Copy JWT binaries to PSJwt Module')
         $libpath = Resolve-Path -Path ("$([IO.Path]::GetTempPath())" + "*jwt*\lib*")
-        Copy-Item -Path ($($libpath.path) + '\*') -Destination .\lib\jwt -Recurse
+        Copy-Item -Path ($($libpath.path) + '\*') -Destination .\lib\jwt -Recurse -Force
 
         Write-Output -InputObject ('Copy Newtonsoft binaries to PSJwt Module')
         $libpath = Resolve-Path -Path ("$([IO.Path]::GetTempPath())" + "*newtonsoft*\lib*")
-        $libpathnewtonsoftstandard = $libpath | Get-ChildItem -Filter netstandard*| Sort-Object -Property Name -Descending | Select-Object -First 1
-        Copy-Item -Path ($($libpathnewtonsoftstandard.FullName) + '\*') -include *.xml, *.dll -Destination (".\lib\Newtonsoft\$($libpathnewtonsoftstandard.name)") 
+        $libpathnewtonsoftstandard = $libpath | Get-ChildItem -Filter netstandard* | Sort-Object -Property Name -Descending | Select-Object -First 1
+        Copy-Item -Path ($($libpathnewtonsoftstandard.FullName) + '\*') -include *.xml, *.dll -Destination (".\lib\Newtonsoft\$($libpathnewtonsoftstandard.name)") -Force
 
-        $libpathnewtonsoftnet = $libpath | Get-ChildItem -Filter net*| Sort-Object -Property Name -Descending | Select-Object -First 1
-        Copy-Item -Path ($($libpathnewtonsoftnet.FullName) + '\*') -include *.xml, *.dll -Destination (".\lib\Newtonsoft\$($libpathnewtonsoftnet.name)")
+        $libpathnewtonsoftnet = $libpath | Get-ChildItem -Filter net* | Sort-Object -Property Name -Descending | Select-Object -First 1
+        Copy-Item -Path ($($libpathnewtonsoftnet.FullName) + '\*') -include *.xml, *.dll -Destination (".\lib\Newtonsoft\$($libpathnewtonsoftnet.name)") -Force
+
+        #Remove temp newtonsoft folder
+        $NewtonsoftPathToRemove = Resolve-Path .\lib\Newtonsoft.json*
+        Write-Output -InputObject ('Removing folder {0}' -f ($($NewtonsoftPathToRemove).Path))
+        Remove-Item -Path $($NewtonsoftPathToRemove).Path -Recurse -Force
+
     }
     else {
         Write-Output -InputObject ('Current local version {0}. Latest version {1}' -f $ProductVersion, $LatestVersion)
@@ -104,7 +110,7 @@ task UpdateManifest {
     $README = Get-Content -Path .\README.md
     $MarkdownObject = [Markdown.MAML.Parser.MarkdownParser]::new()
     [regex]$regex = '\d\.\d\.\d'
-    $Versions = $regex.Matches($MarkdownObject.ParseString($README).Children.Spans.Text) | foreach-object {$_.value}
+    $Versions = $regex.Matches($MarkdownObject.ParseString($README).Children.Spans.Text) | foreach-object { $_.value }
     ($Versions | Measure-Object -Maximum).Maximum
 
     $manifestPath = '.\PSJwt.psd1'
