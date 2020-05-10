@@ -29,6 +29,7 @@ Header                Payload
 ------                -------
 @{typ=JWT; alg=HS256} @{FirstName=Stefan; LastName=Stranger; Demo=Encode Access Token; exp=1393286893; iat=1393268893}
 ```
+
 Decoded JSON Web Token.
 
 ### Example 2
@@ -39,6 +40,7 @@ Header                          Payload
 ------                          -------
 @{Env=Demo; typ=JWT; alg=HS256} @{iat=1393268893; Demo=Encode Access Token; FirstName=Stefan; exp=1393286893; LastName=Stranger}
 ```
+
 Decoded JSON Web Token with extra header info.
 
 ## PARAMETERS

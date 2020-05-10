@@ -13,7 +13,7 @@ Creating (encoding) JSON Web Token
 ## SYNTAX
 
 ```
-ConvertTo-JWT -PayLoad <Hashtable> [-Header] <Hashtable> -Secret <String> [<CommonParameters>]
+ConvertTo-JWT [-PayLoad] <Hashtable> [-Header <Hashtable>] [-Secret] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -46,6 +46,21 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
+### -Secret
+JWTs can be signed using a secret (with the HMAC algorithm).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Header
 The header typically consists of two parts: the type of the token, which is JWT, and the signing algorithm being used, such as HMAC SHA256 or RSA. With the Header parameter you can add extra header information.
 The header needs to be dictionary (HashTable) object.
@@ -56,22 +71,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Secret
-JWTs can be signed using a secret (with the HMAC algorithm).
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
