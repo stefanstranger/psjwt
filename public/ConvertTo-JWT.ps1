@@ -7,11 +7,12 @@ Function ConvertTo-JWT {
             ValueFromPipeline = $true)]
         [HashTable]
         $PayLoad,
+        [Parameter(Mandatory = $false)]
+        [HashTable]
+        $Header,
         [Parameter(Mandatory = $true)]
         [String]
-        $Secret,
-        [HashTable]
-        $Headers
+        $Secret        
     )
 
     begin {
@@ -25,15 +26,14 @@ Function ConvertTo-JWT {
     }
     process {
         #region Encode JWT Token
-        if($Headers)
-        {
-            $extraHeaders = [Collections.Generic.Dictionary[string,object]]::new()
-            $Headers.GetEnumerator() |ForEach-Object {$extraHeaders.Add(([string]$_.Key),$_.Value)}
-            $result = $Encoder.Encode($extraHeaders, $PayLoad, $Secret)
+        if ($Header) {
+            $extraHeaders = [Collections.Generic.Dictionary[string, object]]::new()
+            $Header.GetEnumerator() | ForEach-Object { $extraHeaders.Add(([string]$_.Key), $_.Value) }
+            $result = $Encoder.Encode($extraHeaders, $PayLoad, [system.Text.Encoding]::UTF8.GetBytes($Secret))
         }
-        else
-        {
-            $result = $Encoder.Encode($PayLoad, $Secret)
+        else {
+            $extraHeaders = [Collections.Generic.Dictionary[string, object]]::new()
+            $result = $Encoder.Encode($extraHeaders, $PayLoad, [system.Text.Encoding]::UTF8.GetBytes($Secret))
         }
 
         return $result

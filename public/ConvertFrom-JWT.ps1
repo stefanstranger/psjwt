@@ -21,9 +21,11 @@ Function ConvertFrom-JWT {
     }
     process {
         #region Decode JWT Token
-        $result = $Decoder.Decode($token) | ConvertFrom-Json
-
-        return $result
+        
+        return [PSCustomObject]@{
+            'Header' = ($Decoder.DecodeHeader($token) | ConvertFrom-Json)
+            'Payload' = ($Decoder.Decode($Token) | ConvertFrom-Json)
+        }
         #endregion
     }
     end {
