@@ -28,6 +28,16 @@ PS C:\> @{'FirstName' = 'Stefan'; 'LastName' = 'Stranger'; 'Demo' = 'Encode Acce
 
 Encodes Dictionary (Hashtable) payload to encoded JSON Web Token.
 
+### Example 2
+```powershell
+PS C:\> $Payload = @{'FirstName' = 'Stefan'; 'LastName' = 'Stranger'; 'Demo' = 'Encode Access Token'; 'exp' = '1393286893'; 'iat' = '1393268893'}
+PS C:\> $Header = @{'Env' = 'Demo'}
+PS C:\> $Secret = 'qwerty'
+PS C:\>ConvertTo-Jwt -Payload $Payload -Header $Header -Secret $Secret
+```
+
+Encodes Dictionary (Hashtable) payload with extra header info to encoded JSON Web Token.
+
 ## PARAMETERS
 
 ### -PayLoad

@@ -218,6 +218,16 @@ Header                          Payload
           <maml:para>Encodes Dictionary (Hashtable) payload to encoded JSON Web Token.</maml:para>
         </dev:remarks>
       </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; $Payload = @{'FirstName' = 'Stefan'; 'LastName' = 'Stranger'; 'Demo' = 'Encode Access Token'; 'exp' = '1393286893'; 'iat' = '1393268893'}
+PS C:\&gt; $Header = @{'Env' = 'Demo'}
+PS C:\&gt; $Secret = 'qwerty'
+PS C:\&gt;ConvertTo-Jwt -Payload $Payload -Header $Header -Secret $Secret</dev:code>
+        <dev:remarks>
+          <maml:para>Encodes Dictionary (Hashtable) payload with extra header info to encoded JSON Web Token.</maml:para>
+        </dev:remarks>
+      </command:example>
     </command:examples>
     <command:relatedLinks />
   </command:command>
