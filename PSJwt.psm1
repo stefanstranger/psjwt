@@ -3,7 +3,7 @@ if ($PSEdition -eq "Core") {
     Import-Module -Name "$PSScriptRoot/lib/Newtonsoft/netstandard1.0/Newtonsoft.Json.dll" | Out-Null
 }
 else {
-    Import-Module -Name "$PSScriptRoot/lib/jwt/net48/JWT.dll" | Out-Null
+    Import-Module -Name "$PSScriptRoot/lib/jwt/net46/JWT.dll" | Out-Null
     Import-Module -Name "$PSScriptRoot/lib/Newtonsoft/net45/Newtonsoft.Json.dll" | Out-Null
 }
 
