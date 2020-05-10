@@ -30,7 +30,7 @@ task UpdateJWTPackage {
     # Check current JWT Package version
     # Get jwt.dll file properties
     $File = Get-ChildItem -Path .\lib\ -Filter jwt.dll -Recurse | Select-Object -First 1
-    [Version]$ProductVersion = $File.VersionInfo.ProductVersion
+    [Version]$ProductVersion = $File.VersionInfo.ProductVersionRaw
     Write-Output -InputObject ('ProductVersion for jwt {0}' -f $ProductVersion)
 
     # Check latest version JWTPackage
