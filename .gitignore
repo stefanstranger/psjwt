@@ -1,2 +1,3 @@
 output/*
 .vscode/settings.json
+test.ps1
