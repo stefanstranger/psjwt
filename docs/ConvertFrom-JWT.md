@@ -25,14 +25,21 @@ Decodes JSON Web Token.
 ```powershell
 PS C:\>  $Token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaXJzdE5hbWUiOiJTdGVmYW4iLCJMYXN0TmFtZSI6IlN0cmFuZ2VyIiwiRGVtbyI6IkVuY29kZSBBY2Nlc3MgVG9rZW4iLCJleHAiOjEzOTMyODY4OTMsImlhdCI6MTM5MzI2ODg5M30.8-YqAPPth3o-C_xO9WFjW5RViAnDe2WrmVyqLRnNEV0'
 ConvertFrom-JWT -Token $Token
-FirstName : Stefan
-LastName  : Stranger
-Demo      : Encode Access Token
-exp       : 1393286893
-iat       : 1393268893
+Header                Payload
+------                -------
+@{typ=JWT; alg=HS256} @{FirstName=Stefan; LastName=Stranger; Demo=Encode Access Token; exp=1393286893; iat=1393268893}
 ```
+Decoded JSON Web Token.
 
-Decode JSON Web Token to object to validate.
+### Example 2
+```powershell
+PS C:\>  $Token = 'eyJFbnYiOiJEZW1vIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJpYXQiOiIxMzkzMjY4ODkzIiwiRGVtbyI6IkVuY29kZSBBY2Nlc3MgVG9rZW4iLCJGaXJzdE5hbWUiOiJTdGVmYW4iLCJleHAiOiIxMzkzMjg2ODkzIiwiTGFzdE5hbWUiOiJTdHJhbmdlciJ9.JFJVUaBIUJmHQUawkK1dH5Iie8tSTTXKFbZZka3_k7Y'
+ConvertFrom-JWT -Token $Token
+Header                          Payload
+------                          -------
+@{Env=Demo; typ=JWT; alg=HS256} @{iat=1393268893; Demo=Encode Access Token; FirstName=Stefan; exp=1393286893; LastName=Stranger}
+```
+Decoded JSON Web Token with extra header info.
 
 ## PARAMETERS
 
