@@ -64,7 +64,7 @@ task UpdateJWTPackage {
         $jwtdotnetstandardfolders[0.. ($jwtdotnetstandardfolders.Length - 2)].FullName | Remove-item -Recurse
     }
     else {
-        Write-Output -InputObject ('Current local version {0}. Latest version {1}' -f $ProductVersion, $LatestVersion)
+        Write-Output -InputObject ('Current local version {0}. Latest version {1}. No need to update JWT Library.' -f $ProductVersion, $LatestVersion)
     }
 }
 #endregion
