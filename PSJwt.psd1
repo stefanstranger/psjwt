@@ -12,7 +12,7 @@
     RootModule        = 'PSJwt.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.3'
+    ModuleVersion     = '1.0.4'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -107,7 +107,7 @@
             # IconUri = ''
 
             # ReleaseNotes of this module
-            ReleaseNotes = 'Updated jwt library to 7.1.0 and added extra header option'
+            ReleaseNotes = 'Updated jwt library to 7.2.0 and added extra help info for ConvertFrom-JWT Function'
 
             # Prerelease string of this module
             # Prerelease = 'alpha'

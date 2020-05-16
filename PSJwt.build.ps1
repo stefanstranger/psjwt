@@ -54,6 +54,14 @@ task UpdateJWTPackage {
 
         $libpathnewtonsoftnet = $libpath | Get-ChildItem -Filter net* | Sort-Object -Property Name -Descending | Select-Object -First 1
         Copy-Item -Path ($($libpathnewtonsoftnet.FullName) + '\*') -include *.xml, *.dll -Destination (".\lib\Newtonsoft\$($libpathnewtonsoftnet.name)") -Force
+
+        #remove older version of dot net
+        $jwtdotnetfolders = ((Get-ChildItem -Path .\lib\jwt) -match 'net[0-9][0-9]*')
+        $jwtdotnetfolders[0.. ($jwtdotnetfolders.Length - 2)].FullName | Remove-item -Recurse -Force
+
+        #remove older version of dot net standard
+        $jwtdotnetstandardfolders = ((Get-ChildItem -Path .\lib\jwt) -match 'netstandard[0-9].[0-9]*')
+        $jwtdotnetstandardfolders[0.. ($jwtdotnetstandardfolders.Length - 2)].FullName | Remove-item -Recurse
     }
     else {
         Write-Output -InputObject ('Current local version {0}. Latest version {1}' -f $ProductVersion, $LatestVersion)

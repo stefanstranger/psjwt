@@ -43,6 +43,17 @@ Header                          Payload
 
 Decoded JSON Web Token with extra header info.
 
+### Example 3
+```powershell
+PS C:\>  $Token = 'eyJFbnYiOiJEZW1vIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJpYXQiOiIxMzkzMjY4ODkzIiwiRGVtbyI6IkVuY29kZSBBY2Nlc3MgVG9rZW4iLCJGaXJzdE5hbWUiOiJTdGVmYW4iLCJleHAiOiIxMzkzMjg2ODkzIiwiTGFzdE5hbWUiOiJTdHJhbmdlciJ9.JFJVUaBIUJmHQUawkK1dH5Iie8tSTTXKFbZZka3_k7Y'
+ConvertFrom-JWT -Token $Token | Select-Object -Expand Payload | Select-Object @{'Name' = 'iatutc'; E= {[system.dateTimeOffset]::FromUnixTimeSeconds($_.iat).datetime}},@{'Name' = 'exptutc'; E= {[system.dateTimeOffset]::FromUnixTimeSeconds($_.exp).datetime
+iatutc             exptutc           
+------             -------           
+24-2-2014 19:08:13 25-2-2014 00:08:13
+```
+
+Decoded JSON Web Token with conversation of Unix Time.
+
 ## PARAMETERS
 
 ### -Token
