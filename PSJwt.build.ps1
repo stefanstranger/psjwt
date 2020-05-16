@@ -44,7 +44,7 @@ task UpdateJWTPackage {
         nuget install JWT -OutputDirectory ([IO.Path]::GetTempPath())
 
         Write-Output -InputObject ('Copy JWT binaries to PSJwt Module')
-        $libpath = Resolve-Path -Path ("$([IO.Path]::GetTempPath())" + "*jwt*\lib*")
+        $libpath = Resolve-Path -Path ("$([IO.Path]::GetTempPath())" + ('*jwt.{0}\lib*' -f $($LatestVersion.ToString())))
         Copy-Item -Path ($($libpath.path) + '\*') -Destination .\lib\jwt -Recurse -Force
 
         Write-Output -InputObject ('Copy Newtonsoft binaries to PSJwt Module')
@@ -54,12 +54,6 @@ task UpdateJWTPackage {
 
         $libpathnewtonsoftnet = $libpath | Get-ChildItem -Filter net* | Sort-Object -Property Name -Descending | Select-Object -First 1
         Copy-Item -Path ($($libpathnewtonsoftnet.FullName) + '\*') -include *.xml, *.dll -Destination (".\lib\Newtonsoft\$($libpathnewtonsoftnet.name)") -Force
-
-        #Remove temp newtonsoft folder
-        $NewtonsoftPathToRemove = Resolve-Path .\lib\Newtonsoft.json*
-        Write-Output -InputObject ('Removing folder {0}' -f ($($NewtonsoftPathToRemove).Path))
-        Remove-Item -Path $($NewtonsoftPathToRemove).Path -Recurse -Force
-
     }
     else {
         Write-Output -InputObject ('Current local version {0}. Latest version {1}' -f $ProductVersion, $LatestVersion)
